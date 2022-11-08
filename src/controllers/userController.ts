@@ -7,17 +7,22 @@ interface IUsers {
     lastName: string
 }
 
+let users: IUsers[] = [
+    {id: 1, name: 'Lexa', lastName: 'Modin'}
+]
+
 class userContoller {
-    users: IUsers[] = [
-        {id: 1, name: 'Lexa', lastName: 'Modin'}
-    ]
 
     async getUser(req: Request, res: Response, next: NextFunction) {
-        res.status(200).json({message: 'controller'})
+        // console.log(this.users);
+        
+        res.status(200).json({users: users})
     }
 
     async addUser(req: Request, res: Response) {
-
+        const {name, lastName} = req.body
+        users.push({id: Date.now(), name, lastName})
+        res.status(200).json({users: users})
     }
 }
 
