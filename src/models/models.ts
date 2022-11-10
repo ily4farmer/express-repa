@@ -3,8 +3,8 @@ import sequelize from "../db"
 
 export const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true,},
-})
+    name: {type: DataTypes.STRING, unique: true,}
+}, {timestamps: false})
     
 
 export const models = {

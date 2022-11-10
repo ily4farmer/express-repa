@@ -13,6 +13,17 @@ class userContoller {
         })
         res.json(list)
     }
+
+    async deleteUser(req: Request, res: Response) {
+        const { id } = req.body
+
+        const result = await User.destroy({where: {
+            id: id
+        }})
+
+        res.json(result)
+
+    }
 }
 
 export default new userContoller()
