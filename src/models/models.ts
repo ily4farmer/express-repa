@@ -1,14 +1,17 @@
-import { DataTypes } from "sequelize"
-import sequelize from "../db"
+import { DataTypes } from "sequelize";
+import sequelize from "../db";
 
-export const User = sequelize.define('user', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true,}
-}, {timestamps: false})
-    
+export const User = sequelize.define(
+    "user",
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        name: { type: DataTypes.STRING, unique: false }
+    },
+    { timestamps: false }
+);
 
 export const models = {
     User
-}
+};
 
-export const getModels = () => models
+export const getModels = () => models;
