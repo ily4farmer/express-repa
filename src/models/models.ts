@@ -1,40 +1,48 @@
-import { DataTypes } from "sequelize";
+import {
+    CreationOptional,
+    DataTypes,
+    InferAttributes,
+    InferCreationAttributes,
+    Model
+} from "sequelize";
 import sequelize from "../db";
 
-export const Сategory = sequelize.define(
+interface CategoryModel
+    extends Model<
+        InferAttributes<CategoryModel>,
+        InferCreationAttributes<CategoryModel>
+    > {
+    // Some fields are optional when calling UserModel.create() or UserModel.build()
+    id: CreationOptional<number>;
+    type: string;
+}
+
+export const Category = sequelize.define<CategoryModel>(
     "category",
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        typeProduct: {
-            type: DataTypes.STRING,
-            unique: {
-                name: "category",
-                msg: "idcustomer duplicate"
-            },
-            allowNull: false
-        }
+        type: { type: DataTypes.STRING, allowNull: false, unique: true }
     },
     { timestamps: false }
 );
 
-export const Product = sequelize.define("product", {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    logo: { type: DataTypes.STRING },
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
-    productInfo: {
-        type: DataTypes.STRING,
-        unique: false,
-        defaultValue: ""
+export const Product = sequelize.define(
+    "product",
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        logo: { type: DataTypes.STRING },
+        name: { type: DataTypes.STRING, allowNull: false, unique: true },
+        price: { type: DataTypes.INTEGER, allowNull: false },
+        description: { type: DataTypes.STRING, defaultValue: "" }
     },
-    price: { type: DataTypes.INTEGER, allowNull: false },
-    sale: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
-});
+    { timestamps: false }
+);
 
-Сategory.hasMany(Product);
-Product.belongsTo(Сategory);
+Category.hasMany(Product, { onDelete: "cascade" });
+Product.belongsTo(Category);
 
 export const models = {
-    Сategory,
+    Category,
     Product
 };
 
