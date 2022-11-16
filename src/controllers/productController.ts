@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import ApiError from "../error/ApiError";
-import { User } from "../models/models";
+import { Product } from "../models/models";
 
-class userContoller {
+class productController {
     async getUser(req: Request, res: Response, next: NextFunction) {
-        const users = await User.findAll();
+        const users = await Product.findAll();
         return res.json(users);
     }
 
@@ -13,7 +13,7 @@ class userContoller {
         if (!name) {
             return next(ApiError.badRequest("not properties name"));
         }
-        const list = await User.create({
+        const list = await Product.create({
             name
         });
         res.json(list);
@@ -26,7 +26,7 @@ class userContoller {
             return next(ApiError.badRequest("not properties id"));
         }
 
-        const result = await User.destroy({
+        const result = await Product.destroy({
             where: {
                 id: id
             }
@@ -36,4 +36,4 @@ class userContoller {
     }
 }
 
-export default new userContoller();
+export default new productController();

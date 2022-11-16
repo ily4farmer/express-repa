@@ -1,55 +1,40 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db";
 
-export const User = sequelize.define(
-    "user",
+export const Сategory = sequelize.define(
+    "category",
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, unique: false }
+        typeProduct: {
+            type: DataTypes.STRING,
+            unique: {
+                name: "category",
+                msg: "idcustomer duplicate"
+            },
+            allowNull: false
+        }
     },
     { timestamps: false }
 );
 
-export const Basket = sequelize.define(
-    "basket",
-    {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        abc: { type: DataTypes.STRING, unique: false }
+export const Product = sequelize.define("product", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    logo: { type: DataTypes.STRING },
+    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    productInfo: {
+        type: DataTypes.STRING,
+        unique: false,
+        defaultValue: ""
     },
-    { timestamps: false }
-);
+    price: { type: DataTypes.INTEGER, allowNull: false },
+    sale: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
+});
 
-export const Company = sequelize.define(
-    "company",
-    {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, unique: true }
-    },
-    { timestamps: false }
-);
-
-export const Product = sequelize.define(
-    "product",
-    {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, unique: true },
-        description: { type: DataTypes.STRING, unique: false }
-    },
-    {
-        timestamps: false
-    }
-);
-
-User.hasOne(Basket);
-Basket.belongsTo(User);
-
-Company.hasMany(Product, { onDelete: "cascade" });
-// Product.belongsTo(Company);
+Сategory.hasMany(Product);
+Product.belongsTo(Сategory);
 
 export const models = {
-    User,
-    Basket,
-    Company,
+    Сategory,
     Product
 };
 
