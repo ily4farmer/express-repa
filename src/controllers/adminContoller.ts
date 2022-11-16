@@ -66,6 +66,19 @@ class adminContoller {
 
         res.json(result);
     }
+
+    async getAllProduct(req: Request, res: Response, next: NextFunction) {
+        const { id } = req.params;
+
+        await Category.findByPk(id).then(async (category: any) => {
+            if (!category)
+                return next(ApiError.badRequest("not find category"));
+            await category
+                .getProduct()
+                .then((result: any) => res.json({ product: result }))
+                .catch((err: any) => next(ApiError.badRequest(err.message)));
+        });
+    }
 }
 
 export default new adminContoller();

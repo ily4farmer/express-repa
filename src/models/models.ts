@@ -1,7 +1,23 @@
-import { DataTypes } from "sequelize";
+import {
+    CreationOptional,
+    DataTypes,
+    InferAttributes,
+    InferCreationAttributes,
+    Model
+} from "sequelize";
 import sequelize from "../db";
 
-export const Category = sequelize.define(
+interface CategoryModel
+    extends Model<
+        InferAttributes<CategoryModel>,
+        InferCreationAttributes<CategoryModel>
+    > {
+    // Some fields are optional when calling UserModel.create() or UserModel.build()
+    id: CreationOptional<number>;
+    type: string;
+}
+
+export const Category = sequelize.define<CategoryModel>(
     "category",
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
